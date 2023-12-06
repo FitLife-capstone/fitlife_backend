@@ -1,10 +1,12 @@
+require("dotenv").config();
+
 const { Client } = require("pg");
 
 const client = new Client({
-	host: "fitlife-db",
-	user: "postgres",
-	database: "fitlife_db",
-	password: "123456",
+	host: process.env.POSTGRES_HOST,
+	user: process.env.POSTGRES_USER,
+	database: process.env.POSTGRES_DB,
+	password: process.env.POSTGRES_PASSWORD,
 });
 
 client.connect();
