@@ -27,6 +27,13 @@ const getActivity = async (req, res) => {
 
 		const queryResult = await client.query(query);
 
+		if (queryResult.rows.length == 0) {
+			result["error"] = true;
+			result["message"] = "Exercise not found";
+			res.status(400).json(result);
+			return;
+		}
+
 		result["error"] = false;
 		result["message"] = "Success";
 		result["data"] = queryResult.rows[0];
