@@ -4,13 +4,13 @@ CREATE TABLE users (
     email VARCHAR(255),
     pass VARCHAR(255),
     age INT,
-    gender BOOLEAN,
+    gender VARCHAR(10),
     weight INT,
     height INT,
     activity_freq INT,
     fitness_level VARCHAR(50),
     primary_goal VARCHAR(50),
-    equipment VARCHAR(255) ARRAY
+    equipments VARCHAR(255) ARRAY
 );
 
 CREATE TABLE task (
@@ -29,7 +29,7 @@ CREATE TABLE exercise (
     exercise_desc VARCHAR(255),
     type VARCHAR(255),
     bodypart VARCHAR(255) ARRAY,
-    equipment VARCHAR(255) ARRAY,
+    equipments VARCHAR(255) ARRAY,
     level VARCHAR(255)
 );
 
@@ -56,11 +56,11 @@ CREATE TABLE user_exercise (
 );
 
 
-INSERT INTO users (name, email, pass, age, gender, weight, height, activity_freq, fitness_level, primary_goal, equipment)
+INSERT INTO users (name, email, pass, age, gender, weight, height, activity_freq, fitness_level, primary_goal, equipments)
 VALUES 
-  ('John Doe', 'john@example.com', 'password123', 30, true, 75, 180, 4, 'Intermediate', 'Muscle Gain', ARRAY['Bands', 'Barbell', 'Kettlebells', 'Dumbbell', 'Cable', 'Machine', 'Body Only', 'Medicine Ball', 'Exercise Ball', 'Foam Roll', 'E-Z Curl Bar']),
-  ('Jane Smith', 'jane@example.com', 'pass321', 28, false, 60, 165, 5, 'Advanced', 'Weight Loss', ARRAY['Bands', 'Barbell', 'Dumbbell', 'Cable', 'Machine', 'Body Only', 'Medicine Ball', 'Foam Roll', 'E-Z Curl Bar']),
-  ('Alice Johnson', 'alice@example.com', 'securepass', 35, false, 70, 170, 3, 'Beginner', 'General Fitness', ARRAY['Kettlebells', 'Cable', 'Medicine Ball','Foam Roll']);
+  ('John Doe', 'john@example.com', 'password123', 30, 'male', 75, 180, 4, 'Intermediate', 'Muscle Gain', ARRAY['Bands', 'Barbell', 'Kettlebells', 'Dumbbell', 'Cable', 'Machine', 'Body Only', 'Medicine Ball', 'Exercise Ball', 'Foam Roll', 'E-Z Curl Bar']),
+  ('Jane Smith', 'jane@example.com', 'pass321', 28, 'female', 60, 165, 5, 'Advanced', 'Weight Loss', ARRAY['Bands', 'Barbell', 'Dumbbell', 'Cable', 'Machine', 'Body Only', 'Medicine Ball', 'Foam Roll', 'E-Z Curl Bar']),
+  ('Alice Johnson', 'alice@example.com', 'securepass', 35, 'female', 70, 170, 3, 'Beginner', 'General Fitness', ARRAY['Kettlebells', 'Cable', 'Medicine Ball','Foam Roll']);
 
 INSERT INTO task (category, task_name, task_desc, created_date, end_date)
 VALUES 
@@ -68,7 +68,7 @@ VALUES
   ('Exercise', 'Push-up Challenge', 'Complete 100 push-ups daily', '2023-07-25', '2024-07-25'),
   ('Health', 'Drink Water', 'Drink 8 glasses of water daily', '2023-08-29', '2024-08-29');
 
-INSERT INTO exercise (category, exercise_name, exercise_desc, type, bodypart, equipment, level)
+INSERT INTO exercise (category, exercise_name, exercise_desc, type, bodypart, equipments, level)
 VALUES 
   ('Cardio', 'Running', 'Run for 30 minutes', 'Cardiovascular', ARRAY['Legs'], ARRAY['Running Shoes'], 'Intermediate'),
   ('Strength', 'Push-ups', 'Perform 3 sets of 15 reps', 'Bodyweight', ARRAY['Chest', 'Arms'], ARRAY['Floor Mat'], 'Beginner'),
