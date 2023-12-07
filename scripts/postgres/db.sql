@@ -18,7 +18,7 @@ CREATE TABLE task (
     category VARCHAR(255),
     task_name VARCHAR(255),
     task_desc VARCHAR(255),
-    created_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    created_date DATE,
     end_date DATE
 );
 
@@ -62,11 +62,11 @@ VALUES
   ('Jane Smith', 'jane@example.com', 'pass321', 28, false, 60, 165, 5, 'Advanced', 'Weight Loss', ARRAY['Bands', 'Barbell', 'Dumbbell', 'Cable', 'Machine', 'Body Only', 'Medicine Ball', 'Foam Roll', 'E-Z Curl Bar']),
   ('Alice Johnson', 'alice@example.com', 'securepass', 35, false, 70, 170, 3, 'Beginner', 'General Fitness', ARRAY['Kettlebells', 'Cable', 'Medicine Ball','Foam Roll']);
 
-INSERT INTO task (category, task_name, task_desc, end_date)
+INSERT INTO task (category, task_name, task_desc, created_date, end_date)
 VALUES 
-  ('Fitness', 'Run 5 miles', 'Run 5 miles in the park', '2024-06-22'),
-  ('Exercise', 'Push-up Challenge', 'Complete 100 push-ups daily', '2024-07-25'),
-  ('Health', 'Drink Water', 'Drink 8 glasses of water daily', '2024-08-29');
+  ('Fitness', 'Run 5 miles', 'Run 5 miles in the park', '2023-06-22', '2024-06-22'),
+  ('Exercise', 'Push-up Challenge', 'Complete 100 push-ups daily', '2023-07-25', '2024-07-25'),
+  ('Health', 'Drink Water', 'Drink 8 glasses of water daily', '2023-08-29', '2024-08-29');
 
 INSERT INTO exercise (category, exercise_name, exercise_desc, type, bodypart, equipment, level)
 VALUES 
