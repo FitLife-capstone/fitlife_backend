@@ -76,12 +76,12 @@ VALUES
 
 INSERT INTO user_task (user_id, task_id, rate, img)
 VALUES 
-  (1, 1, 4, 'run_image.jpg'),
-  (2, 2, 5, 'pushup_image.jpg'),
-  (3, 3, 3, 'water_image.jpg');
+  (1, 1, 4, 'src/uploads/running.jpg'),
+  (2, 2, 5, 'src/uploads/running.jpg'),
+  (3, 3, 3, 'src/uploads/running.jpg');
 
 INSERT INTO user_exercise (user_id, exercise_id, rate, img)
 VALUES 
-  (1, 1, 4, 'running_image.jpg'),
-  (2, 2, 5, 'pushups_image.jpg'),
-  (3, 3, 3, 'yoga_image.jpg');
+  (1, 1, 4, 'src/uploads/running.jpg'),
+  (2, 2, 5, 'src/uploads/running.jpg'),
+  (3, 3, 3, 'src/uploads/running.jpg');
