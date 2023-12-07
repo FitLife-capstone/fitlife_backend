@@ -18,7 +18,7 @@ CREATE TABLE task (
     category VARCHAR(255),
     task_name VARCHAR(255),
     task_desc VARCHAR(255),
-    created_date DATE,
+    created_date DATE NOT NULL DEFAULT CURRENT_DATE,
     end_date DATE
 );
 
@@ -38,7 +38,7 @@ CREATE TABLE user_task (
     task_id INT,
     rate INT,
     img VARCHAR(255),
-    created_date TIMESTAMP,
+    created_date TIMESTAMP NOT NULL DEFAULT NOW(),
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (task_id) REFERENCES task(task_id),
     PRIMARY KEY (user_id, task_id)
@@ -49,7 +49,7 @@ CREATE TABLE user_exercise (
     exercise_id INT,
     rate INT,
     img VARCHAR(255),
-    created_date TIMESTAMP,
+    created_date TIMESTAMP NOT NULL DEFAULT NOW(),
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (exercise_id) REFERENCES exercise(exercise_id),
     PRIMARY KEY (user_id, exercise_id)
@@ -62,11 +62,11 @@ VALUES
   ('Jane Smith', 'jane@example.com', 'pass321', 28, false, 60, 165, 5, 'Advanced', 'Weight Loss', ARRAY['Bands', 'Barbell', 'Dumbbell', 'Cable', 'Machine', 'Body Only', 'Medicine Ball', 'Foam Roll', 'E-Z Curl Bar']),
   ('Alice Johnson', 'alice@example.com', 'securepass', 35, false, 70, 170, 3, 'Beginner', 'General Fitness', ARRAY['Kettlebells', 'Cable', 'Medicine Ball','Foam Roll']);
 
-INSERT INTO task (category, task_name, task_desc, created_date, end_date)
+INSERT INTO task (category, task_name, task_desc, end_date)
 VALUES 
-  ('Fitness', 'Run 5 miles', 'Run 5 miles in the park', '2023-01-15', '2023-01-20'),
-  ('Exercise', 'Push-up Challenge', 'Complete 100 push-ups daily', '2023-02-01', '2023-02-28'),
-  ('Health', 'Drink Water', 'Drink 8 glasses of water daily', '2023-03-10', '2023-03-31');
+  ('Fitness', 'Run 5 miles', 'Run 5 miles in the park', '2024-06-22'),
+  ('Exercise', 'Push-up Challenge', 'Complete 100 push-ups daily', '2024-07-25'),
+  ('Health', 'Drink Water', 'Drink 8 glasses of water daily', '2024-08-29');
 
 INSERT INTO exercise (category, exercise_name, exercise_desc, type, bodypart, equipment, level)
 VALUES 
@@ -74,14 +74,14 @@ VALUES
   ('Strength', 'Push-ups', 'Perform 3 sets of 15 reps', 'Bodyweight', ARRAY['Chest', 'Arms'], ARRAY['Floor Mat'], 'Beginner'),
   ('Flexibility', 'Yoga', 'Practice basic yoga poses', 'Flexibility', ARRAY['Full Body'], ARRAY['Yoga Mat'], 'Beginner');
 
-INSERT INTO user_task (user_id, task_id, rate, img, created_date)
+INSERT INTO user_task (user_id, task_id, rate, img)
 VALUES 
-  (1, 1, 4, 'run_image.jpg', '2023-01-18 08:00:00'),
-  (2, 2, 5, 'pushup_image.jpg', '2023-02-05 09:30:00'),
-  (3, 3, 3, 'water_image.jpg', '2023-03-15 12:45:00');
+  (1, 1, 4, 'run_image.jpg'),
+  (2, 2, 5, 'pushup_image.jpg'),
+  (3, 3, 3, 'water_image.jpg');
 
-INSERT INTO user_exercise (user_id, exercise_id, rate, img, created_date)
+INSERT INTO user_exercise (user_id, exercise_id, rate, img)
 VALUES 
-  (1, 1, 4, 'running_image.jpg', '2023-01-17 07:30:00'),
-  (2, 2, 5, 'pushups_image.jpg', '2023-02-08 10:00:00'),
-  (3, 3, 3, 'yoga_image.jpg', '2023-03-20 13:00:00');
+  (1, 1, 4, 'running_image.jpg'),
+  (2, 2, 5, 'pushups_image.jpg'),
+  (3, 3, 3, 'yoga_image.jpg');
