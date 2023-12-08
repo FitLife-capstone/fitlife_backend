@@ -1,33 +1,30 @@
 const { client } = require("../db");
 
 const getAllTask = async (req, res) => {
-	const result = {};
-
 	try {
 		const query = "SELECT * FROM task ORDER BY created_date DESC";
 
 		const queryResult = await client.query(query);
 
 		if (queryResult.rows.length == 0) {
-			result["error"] = true;
-			result["message"] = "No active challenge";
-			res.status(400).json(result);
+			res.status(201).json({
+				error: false,
+				message: "No active challenge",
+			});
 			return;
 		}
 
-		result["error"] = false;
-		result["message"] = "Success";
-		result["data"] = queryResult.rows;
-
-		res.status(201).json(result);
+		res.status(201).json({
+			error: false,
+			message: "Success",
+			data: queryResult.rows,
+		});
 	} catch (error) {
 		res.status(500).json({ error: "Internal Server Error" });
 	}
 };
 
 const getAllActiveTask = async (req, res) => {
-	const result = {};
-
 	try {
 		const query =
 			"SELECT * FROM task WHERE end_date >= CURRENT_DATE  ORDER BY created_date DESC";
@@ -35,17 +32,18 @@ const getAllActiveTask = async (req, res) => {
 		const queryResult = await client.query(query);
 
 		if (queryResult.rows.length == 0) {
-			result["error"] = true;
-			result["message"] = "No active challenge";
-			res.status(400).json(result);
+			res.status(201).json({
+				error: false,
+				message: "No active challenge",
+			});
 			return;
 		}
 
-		result["error"] = false;
-		result["message"] = "Success";
-		result["data"] = queryResult.rows;
-
-		res.status(201).json(result);
+		res.status(201).json({
+			error: false,
+			message: "Success",
+			data: queryResult.rows,
+		});
 	} catch (error) {
 		res.status(500).json({ error: "Internal Server Error" });
 	}
