@@ -58,9 +58,9 @@ CREATE TABLE user_exercise (
 
 INSERT INTO users (name, email, pass, age, gender, weight, height, activity_freq, fitness_level, primary_goal, equipments)
 VALUES 
-  ('John Doe', 'john@example.com', 'password123', 30, 'male', 75, 180, 4, 'Intermediate', 'Muscle Gain', ARRAY['Bands', 'Barbell', 'Kettlebells', 'Dumbbell', 'Cable', 'Machine', 'Body Only', 'Medicine Ball', 'Exercise Ball', 'Foam Roll', 'E-Z Curl Bar']),
-  ('Jane Smith', 'jane@example.com', 'pass321', 28, 'female', 60, 165, 5, 'Advanced', 'Weight Loss', ARRAY['Bands', 'Barbell', 'Dumbbell', 'Cable', 'Machine', 'Body Only', 'Medicine Ball', 'Foam Roll', 'E-Z Curl Bar']),
-  ('Alice Johnson', 'alice@example.com', 'securepass', 35, 'female', 70, 170, 3, 'Beginner', 'General Fitness', ARRAY['Kettlebells', 'Cable', 'Medicine Ball','Foam Roll']);
+  ('John Doe', 'john@example.com', '$2a$10$z4XQGOKA.v2pl8vI.wMJSOaReJJW2zWtNC7uBlMWfRWuKSyl9xnfy', 30, 'male', 75, 180, 4, 'Intermediate', 'Muscle Gain', ARRAY['Bands', 'Barbell', 'Kettlebells', 'Dumbbell', 'Cable', 'Machine', 'Body Only', 'Medicine Ball', 'Exercise Ball', 'Foam Roll', 'E-Z Curl Bar']),
+  ('Jane Smith', 'jane@example.com', '$2a$10$DFPe.5IDQv6g2rZTigVHYuGsh0F.J6c5PYgcJRt831bMix9wUGycS', 28, 'female', 60, 165, 5, 'Advanced', 'Weight Loss', ARRAY['Bands', 'Barbell', 'Dumbbell', 'Cable', 'Machine', 'Body Only', 'Medicine Ball', 'Foam Roll', 'E-Z Curl Bar']),
+  ('Alice Johnson', 'alice@example.com', '$2a$10$Fq29mrNzCRcmdN1bkCv4U.efpxR92oWCKQj2ZPHU/UMaW33cR9L7q', 35, 'female', 70, 170, 3, 'Beginner', 'General Fitness', ARRAY['Kettlebells', 'Cable', 'Medicine Ball','Foam Roll']);
 
 INSERT INTO task (category, task_name, task_desc, created_date, end_date)
 VALUES 
