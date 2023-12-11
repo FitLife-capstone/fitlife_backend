@@ -19,6 +19,36 @@ const generateJWT = (userId, role) => {
 	return token;
 };
 
+const authMiddleware = async (req, res, next) => {
+	const token = req.header("Authorization");
+  
+	if (!token) {
+	  return res.status(401).json({ error: "Unauthorized: Token is missing" });
+	}
+  
+	try {
+	  let decoded;
+	  try {
+		decoded = jwt.verify(token.split(" ")[1], process.env.JWT_SECRET_USER);
+		req.user = {
+		  userId: decoded.userId,
+		  role: "user",
+		};
+	  } catch (userError) {
+		decoded = jwt.verify(token.split(" ")[1], process.env.JWT_SECRET_ADMIN);
+		req.user = {
+		  userId: decoded.userId,
+		  role: "admin",
+		};
+	  }
+  
+	  next();
+	} catch (error) {
+	  console.error("Token verification error:", error);
+	  res.status(401).json({ error: "Unauthorized: Invalid token" });
+	}
+  };	
+  
 const login = async (req, res) => {
 	const { email, pass } = req.body;
 
@@ -120,7 +150,38 @@ const register = async (req, res) => {
 };
 
 const profile = async (req, res) => {
-	res.status(200).json({ message: "Profile" });
-};
+	try {
+	  const userId = req.user.userId;
+  
+	  const userQuery = await client.query("SELECT * FROM users WHERE user_id = $1", [userId]);
+  
+	  if (userQuery.rows.length === 0) {
+		return res.status(404).json({ error: "User not found" });
+	  }
+  
+	  const userData = userQuery.rows[0];
+  
+	  res.status(200).json({
+		error: false,
+		message: "success",
+		data: {
+		  user_id: userData.user_id,
+		  name: userData.name,
+		  age: userData.age,
+		  gender: userData.gender,
+		  weight: userData.weight,
+		  height: userData.height,
+		  activity_freq: userData.activity_freq,
+		  fitness_level: userData.fitness_level,
+		  primary_goal: userData.primary_goal,
+		  equipments: userData.equipments,
+		},
+	  });
+	} catch (error) {
+	  console.error(error);
+	  res.status(500).json({ error: "Internal Server Error" });
+	}
+  };
+  
 
 module.exports = { login, register, profile };
