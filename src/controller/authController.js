@@ -4,8 +4,18 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
 const { client } = require("../db");
 
-const generateJWT = (userId) => {
-	const token = jwt.sign({ userId: userId }, process.env.JWT_SECRET, { expiresIn: "1h" });
+const generateJWT = (userId, role) => {
+	let secretKey;
+
+	if (role === "admin") {
+		secretKey = process.env.JWT_SECRET_ADMIN;
+	} else {
+		secretKey = process.env.JWT_SECRET_USER;
+	}
+
+	const token = jwt.sign({ userId: userId, role: role }, secretKey, {
+		expiresIn: "1h",
+	});
 	return token;
 };
 
@@ -25,18 +35,28 @@ const login = async (req, res) => {
 			return res.status(401).json({ error: "Invalid email or password" });
 		}
 
-		const token = generateJWT(user.rows[0].id);
+		try {
+			let role = "user";
+			if (user.rows[0].user_id === 1) {
+				role = "admin";
+			}
 
-		res.header("Authorization", `Bearer ${token}`);
-		res.status(200).json({
-			error: false,
-			message: "success",
-			loginResult: {
-				userId: user.rows[0].id,
-				name: user.rows[0].name,
-				token: token,
-			},
-		});
+			const token = generateJWT(user.rows[0].user_id, role);
+
+			res.header("Authorization", `Bearer ${token}`);
+			res.status(200).json({
+				error: false,
+				message: "success",
+				loginResult: {
+					userId: user.rows[0].user_id,
+					name: user.rows[0].name,
+					token: token,
+				},
+			});
+		} catch (tokenError) {
+			console.error("Token generation error:", tokenError);
+			res.status(500).json({ error: "Internal Server Error" });
+		}
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ error: "Internal Server Error" });
@@ -59,7 +79,6 @@ const register = async (req, res) => {
 	} = req.body;
 
 	try {
-		// Validation checks
 		if (!name || !email || !pass || !age || !gender || !weight || !height || !activity_freq || !fitness_level || !primary_goal || !equipments) {
 			return res.status(400).json({ error: "Please provide all required fields" });
 		}
