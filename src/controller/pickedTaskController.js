@@ -1,6 +1,16 @@
 const { client } = require("../db");
 const fs = require("fs");
 
+function deleteImage(filePath) {
+	fs.unlink(filePath, (err) => {
+		if (err) {
+			console.error(`Error deleting image: ${err}`);
+			return;
+		}
+		console.log("Image deleted successfully");
+	});
+}
+
 const submitTask = async (req, res) => {
 	const result = {};
 	const { task_id, user_id, rate } = req.body;
@@ -15,6 +25,7 @@ const submitTask = async (req, res) => {
 				if (err) {
 					console.error(err);
 					return res.status(500).json({ error: "Error uploading file" });
+					deleteImage(imgPath);
 				}
 			});
 
@@ -24,6 +35,7 @@ const submitTask = async (req, res) => {
 			if (queryResult.rows.length > 0) {
 				result["error"] = true;
 				result["message"] = "Task already submitted";
+				deleteImage(targetPath);
 				res.status(400).json(result);
 				return;
 			} else {
