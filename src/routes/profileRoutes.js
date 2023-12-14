@@ -3,7 +3,11 @@ const profileRouter = express.Router();
 const profileHandler = require("../controller/profileController");
 const middleware = require("../middleware/auth");
 
-profileRouter.get("/user-detail", profileHandler.getUserDetail);
+profileRouter.get(
+	"/user-detail",
+	middleware.authMiddleware,
+	profileHandler.getUserDetail
+);
 profileRouter.get(
 	"/user-exercise",
 	middleware.authMiddleware,
