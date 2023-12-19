@@ -77,9 +77,9 @@ const getTask = async (req, res) => {
 
 const createTask = async (req, res) => {
 	if (req.user && req.user.role === "admin") {
-		const { category, task_name, task_desc, start_at, end_at } = req.body;
+		const { task_name, task_desc, points, start_at, end_at } = req.body;
 
-		if (!category || !task_name || !task_desc || !start_at || !end_at) {
+		if (!task_name || !task_desc || !points || !start_at || !end_at) {
 			res.status(400).json({
 				error: true,
 				message: "Missing required fields",
@@ -95,9 +95,9 @@ const createTask = async (req, res) => {
 		} else {
 			try {
 				const insertQuery =
-					"INSERT INTO task (category, task_name, task_desc, created_date, end_date) VALUES ($1, $2, $3, $4, $5) RETURNING *";
+					"INSERT INTO task (task_name, task_desc, points, created_date, end_date) VALUES ($1, $2, $3, $4, $5) RETURNING *";
 
-				const values = [category, task_name, task_desc, start_at, end_at];
+				const values = [task_name, task_desc, points, start_at, end_at];
 
 				const resultQuery = await client.query(insertQuery, values);
 				res.status(201).json({

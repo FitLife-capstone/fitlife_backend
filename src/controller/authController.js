@@ -175,6 +175,7 @@ const profile = async (req, res) => {
 		  fitness_level: userData.fitness_level,
 		  primary_goal: userData.primary_goal,
 		  equipments: userData.equipments,
+		  points: userData.points,
 		},
 	  });
 	} catch (error) {

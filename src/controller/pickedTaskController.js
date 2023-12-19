@@ -41,7 +41,7 @@ const submitTask = async (req, res) => {
 					});
 					return;
 				} else {
-					query = `INSERT INTO user_task (task_id, user_id, rate, img) VALUES (${task_id}, ${user_id}, ${rate}, '${targetPath}') RETURNING *`;
+					query = `INSERT INTO user_task (task_id, user_id, rate, img, status) VALUES (${task_id}, ${user_id}, ${rate}, '${targetPath}', 'PENDING') RETURNING *`;
 					queryResult = await client.query(query);
 
 					res.status(201).json({
