@@ -1,3 +1,4 @@
+const { ErrorInternalServer, ErrorUnauthorized } = require("../common/commonResponse");
 const { client } = require("../db");
 
 const getUserDetail = async (req, res) => {
@@ -9,10 +10,10 @@ const getUserDetail = async (req, res) => {
 			res.status(200).json(result.rows[0]);
 		} catch (error) {
 			console.error(error);
-			res.status(500).json({ error: "Internal Server Error" });
+			res.status(500).json(ErrorInternalServer);
 		}
 	} else {
-		res.status(401).json({ error: "Unauthorized" });
+		res.status(401).json(ErrorUnauthorized);
 	}
 };
 
@@ -25,10 +26,10 @@ const getUserExercise = async (req, res) => {
 			res.status(200).json(result.rows);
 		} catch (error) {
 			console.error(error);
-			res.status(500).json({ error: "Internal Server Error" });
+			res.status(500).json(ErrorInternalServer);
 		}
 	} else {
-		res.status(401).json({ error: "Unauthorized" });
+		res.status(401).json(ErrorUnauthorized);
 	}
 };
 
@@ -41,10 +42,10 @@ const getUserTask = async (req, res) => {
 			res.status(200).json(result.rows);
 		} catch (error) {
 			console.error(error);
-			res.status(500).json({ error: "Internal Server Error" });
+			res.status(500).json(ErrorInternalServer);
 		}
 	} else {
-		res.status(401).json({ error: "Unauthorized" });
+		res.status(401).json(ErrorUnauthorized);
 	}
 };
 

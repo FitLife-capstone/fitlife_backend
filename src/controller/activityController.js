@@ -1,3 +1,4 @@
+const { ErrorInternalServer } = require("../common/commonResponse");
 const { client } = require("../db");
 
 const getAllActivity = async (req, res) => {
@@ -12,7 +13,7 @@ const getAllActivity = async (req, res) => {
 			data: queryResult.rows,
 		});
 	} catch (error) {
-		res.status(500).json({ error: "Internal Server Error" });
+		res.status(500).json(ErrorInternalServer);
 	}
 };
 
@@ -38,7 +39,7 @@ const getActivity = async (req, res) => {
 			data: queryResult.rows[0],
 		});
 	} catch (error) {
-		res.status(500).json({ error: "Internal Server Error" });
+		res.status(500).json(ErrorInternalServer);
 	}
 };
 

@@ -3,6 +3,7 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcryptjs');
 const { client } = require("../db");
+const { ErrorInternalServer } = require("../common/commonResponse");
 
 const generateJWT = (userId, role) => {
 	let secretKey;
@@ -18,36 +19,6 @@ const generateJWT = (userId, role) => {
 	});
 	return token;
 };
-
-const authMiddleware = async (req, res, next) => {
-	const token = req.header("Authorization");
-  
-	if (!token) {
-	  return res.status(401).json({ error: "Unauthorized: Token is missing" });
-	}
-  
-	try {
-	  let decoded;
-	  try {
-		decoded = jwt.verify(token.split(" ")[1], process.env.JWT_SECRET_USER);
-		req.user = {
-		  userId: decoded.userId,
-		  role: "user",
-		};
-	  } catch (userError) {
-		decoded = jwt.verify(token.split(" ")[1], process.env.JWT_SECRET_ADMIN);
-		req.user = {
-		  userId: decoded.userId,
-		  role: "admin",
-		};
-	  }
-  
-	  next();
-	} catch (error) {
-	  console.error("Token verification error:", error);
-	  res.status(401).json({ error: "Unauthorized: Invalid token" });
-	}
-  };	
   
 const login = async (req, res) => {
 	const { email, pass } = req.body;
@@ -56,13 +27,13 @@ const login = async (req, res) => {
 		const user = await client.query("SELECT * FROM users WHERE email = $1", [email]);
 
 		if (!user.rows.length) {
-			return res.status(401).json({ error: "Invalid email or password" });
+			return res.status(401).json({ error: true, message: "Invalid email or password" });
 		}
 
 		const passwordMatch = await bcrypt.compare(pass, user.rows[0].pass);
 
 		if (!passwordMatch) {
-			return res.status(401).json({ error: "Invalid email or password" });
+			return res.status(401).json({ error: true, message: "Invalid email or password" });
 		}
 
 		try {
@@ -85,11 +56,11 @@ const login = async (req, res) => {
 			});
 		} catch (tokenError) {
 			console.error("Token generation error:", tokenError);
-			res.status(500).json({ error: "Internal Server Error" });
+			res.status(500).json(ErrorInternalServer);
 		}
 	} catch (error) {
 		console.error(error);
-		res.status(500).json({ error: "Internal Server Error" });
+		res.status(500).json(ErrorInternalServer);
 	}
 };
 
@@ -110,11 +81,11 @@ const register = async (req, res) => {
 
 	try {
 		if (!name || !email || !pass || !age || !gender || !weight || !height || !activity_freq || !fitness_level || !primary_goal || !equipments) {
-			return res.status(400).json({ error: "Please provide all required fields" });
+			return res.status(400).json({ error: true, message: "Please provide all required fields" });
 		}
 
 		if (activity_freq > 7) {
-			return res.status(400).json({ error: "Activity frequency cannot exceed 7" });
+			return res.status(400).json({ error: true, message: "Activity frequency cannot exceed 7" });
 		}
 
 		const hashedPassword = await bcrypt.hash(pass, 10);
@@ -145,7 +116,7 @@ const register = async (req, res) => {
 		});
 	} catch (error) {
 		console.error(error);
-		res.status(500).json({ error: "Internal Server Error" });
+		res.status(500).json({ error: true, message: "Internal Server Error" });
 	}
 };
 
@@ -156,7 +127,7 @@ const profile = async (req, res) => {
 	  const userQuery = await client.query("SELECT * FROM users WHERE user_id = $1", [userId]);
   
 	  if (userQuery.rows.length === 0) {
-		return res.status(404).json({ error: "User not found" });
+		return res.status(404).json({ error: true, message: "User not found" });
 	  }
   
 	  const userData = userQuery.rows[0];
@@ -180,7 +151,7 @@ const profile = async (req, res) => {
 	  });
 	} catch (error) {
 	  console.error(error);
-	  res.status(500).json({ error: "Internal Server Error" });
+	  res.status(500).json(ErrorInternalServer);
 	}
   };
   

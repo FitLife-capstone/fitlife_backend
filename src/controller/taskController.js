@@ -1,3 +1,4 @@
+const { ErrorInternalServer } = require("../common/commonResponse");
 const { client } = require("../db");
 
 const getAllTask = async (req, res) => {
@@ -20,7 +21,7 @@ const getAllTask = async (req, res) => {
 			data: queryResult.rows,
 		});
 	} catch (error) {
-		res.status(500).json({ error: "Internal Server Error" });
+		res.status(500).json(ErrorInternalServer);
 	}
 };
 
@@ -45,7 +46,7 @@ const getAllActiveTask = async (req, res) => {
 			data: queryResult.rows,
 		});
 	} catch (error) {
-		res.status(500).json({ error: "Internal Server Error" });
+		res.status(500).json(ErrorInternalServer)
 	}
 };
 
@@ -71,7 +72,7 @@ const getTask = async (req, res) => {
 			data: queryResult.rows[0],
 		});
 	} catch (error) {
-		res.status(500).json({ error: "Internal Server Error" });
+		res.status(500).json(ErrorInternalServer);
 	}
 };
 
@@ -106,13 +107,13 @@ const createTask = async (req, res) => {
 					data: resultQuery.rows[0],
 				});
 			} catch (error) {
-				res.status(500).json({ error: "Internal Server Error" });
+				res.status(500).json(ErrorInternalServer);
 			}
 		}
 	} else {
 		res
 			.status(403)
-			.json({ error: "Forbidden: Only admin can perform this action" });
+			.json({ error: true, message: "Forbidden: Only admin can perform this action" });
 	}
 };
 
