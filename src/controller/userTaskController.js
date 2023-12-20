@@ -20,16 +20,16 @@ const getAllUserTask = async (req, res) => {
 			data: queryResult.rows,
 		});
 	} catch (error) {
-		res.status(500).json({ error: "Internal Server Error" });
+		res.status(500).json(ErrorInternalServer);
 	}
 };
 
 const acceptUserTask = async (req, res) => {
-	res.status(200).json({ message: "acceptUserTask" });
+	res.status(200).json({ error: false, message: "acceptUserTask" });
 };
 
 const rejectUserTask = async (req, res) => {
-	res.status(200).json({ message: "rejectUserTask" });
+	res.status(200).json({ error:false, message: "rejectUserTask" });
 };
 
 module.exports = { getAllUserTask, acceptUserTask, rejectUserTask };

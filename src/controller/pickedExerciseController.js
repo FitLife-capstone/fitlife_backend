@@ -1,5 +1,6 @@
 const { client } = require("../db");
 const fs = require("fs");
+const { ErrorUploadingFile, ErrorInternalServer, ErrorUnauthorized } = require("../common/commonResponse");
 
 function deleteImage(filePath) {
 	fs.unlink(filePath, (err) => {
@@ -25,7 +26,7 @@ const submitExercise = async (req, res) => {
 					if (err) {
 						deleteImage(imgPath);
 						console.log(err);
-						return res.status(500).json({ error: "Error uploading file" });
+						return res.status(500).json(ErrorUploadingFile);
 					}
 				});
 
@@ -57,10 +58,10 @@ const submitExercise = async (req, res) => {
 			}
 		} catch (error) {
 			console.error(error);
-			res.status(500).json({ error: "Internal Server Error" });
+			res.status(500).json(ErrorInternalServer);
 		}
 	} else {
-		res.status(401).json({ error: "Unauthorized" });
+		res.status(401).json(ErrorUnauthorized);
 	}
 };
 module.exports = { submitExercise };

@@ -1,11 +1,10 @@
 const jwt = require("jsonwebtoken");
-const { client } = require("../db");
 
 const authMiddleware = async (req, res, next) => {
   const token = req.header("Authorization");
 
   if (!token) {
-    return res.status(401).json({ error: "Unauthorized: Token is missing" });
+    return res.status(401).json({ error: true, message: "Unauthorized: Token is missing" });
   }
 
   try {
@@ -27,7 +26,7 @@ const authMiddleware = async (req, res, next) => {
     next();
   } catch (error) {
     console.error("Token verification error:", error);
-    res.status(401).json({ error: "Unauthorized: Invalid token" });
+    res.status(401).json({ error: true, message: "Unauthorized: Invalid token" });
   }
 };
 
