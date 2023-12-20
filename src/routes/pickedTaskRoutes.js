@@ -8,10 +8,10 @@ const multer = require("multer");
 const upload = multer({ dest: "src/uploads/" });
 
 pickedTaskRoutes.post(
-	"/submit-task",
-	middleware.authMiddleware,
-	upload.single("image"),
-	pickedTaskHandler.submitTask
+  "/submit-task",
+  middleware.authMiddleware,
+  upload.single("image"),
+  pickedTaskHandler.submitTask
 );
 
 module.exports = pickedTaskRoutes;
