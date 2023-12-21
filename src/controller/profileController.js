@@ -24,7 +24,7 @@ const getUserExercise = async (req, res) => {
   if (req.user && req.user.userId) {
     const userId = req.user.userId;
     try {
-      const selectQuery = `SELECT * FROM user_exercise JOIN exercise ON exercise.exercise_id = user_exercise.exercise_id WHERE user_id = ${userId}`;
+      const selectQuery = `SELECT * FROM user_exercise JOIN exercise ON exercise.exercise_id = user_exercise.exercise_id WHERE user_id = ${userId} ORDER BY created_date DESC`;
       const result = await client.query(selectQuery);
       res.status(200).json({items: result.rows});
     } catch (error) {
@@ -40,7 +40,7 @@ const getUserTask = async (req, res) => {
   if (req.user && req.user.userId) {
     const userId = req.user.userId;
     try {
-      const selectQuery = `SELECT * FROM user_task JOIN task ON task.task_id = user_task.task_id WHERE user_id = ${userId}`;
+      const selectQuery = `SELECT * FROM user_task JOIN task ON task.task_id = user_task.task_id WHERE user_id = ${userId} ORDER BY created_date DESC`;
       const result = await client.query(selectQuery);
       res.status(200).json({items: result.rows});
     } catch (error) {
