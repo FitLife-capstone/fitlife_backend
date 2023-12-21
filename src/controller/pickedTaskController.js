@@ -16,17 +16,6 @@ const storage = new Storage({
 
 const bucketName = process.env.BUCKETNAME;
 
-function deleteImage(gcsFilePath) {
-  const bucket = storage.bucket(bucketName);
-  const file = bucket.file(gcsFilePath);
-
-  file.delete().then(() => {
-    console.log(`Image deleted successfully from Google Cloud Storage: ${gcsFilePath}`);
-  }).catch((err) => {
-    console.error(`Error deleting image from Google Cloud Storage: ${err}`);
-  });
-}
-
 const submitTask = async (req, res) => {
   if (req.user && req.user.userId) {
     const { task_id, rate } = req.body;
