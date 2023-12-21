@@ -33,7 +33,7 @@ const submitTask = async (req, res) => {
     const user_id = req.user.userId;
 
     try {
-      if (req.file) {
+      if (req.file && task_id && rate) {
         const imgPath = req.file.path;
         const timestamp = new Date().getTime();
         const uniqueFilename = `${timestamp}-${req.file.originalname}`;
@@ -62,7 +62,6 @@ const submitTask = async (req, res) => {
           res.status(201).json({
             error: false,
             message: 'Task submitted',
-            data: queryResult.rows[0],
           });
         }
       } else {

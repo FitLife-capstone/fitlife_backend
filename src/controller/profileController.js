@@ -10,7 +10,7 @@ const getUserDetail = async (req, res) => {
     try {
       const selectQuery = `SELECT email, age, gender, weight, height, activity_freq, fitness_level, primary_goal, equipments, points FROM users WHERE user_id = ${userId}`;
       const result = await client.query(selectQuery);
-      res.status(200).json(result.rows[0]);
+      res.status(200).json({items: result.rows[0]});
     } catch (error) {
       console.error(error);
       res.status(500).json(ErrorInternalServer);
@@ -24,15 +24,9 @@ const getUserExercise = async (req, res) => {
   if (req.user && req.user.userId) {
     const userId = req.user.userId;
     try {
-      const selectQuery = `SELECT * FROM user_exercise WHERE user_id = ${userId}`;
+      const selectQuery = `SELECT * FROM user_exercise JOIN exercise ON exercise.exercise_id = user_exercise.exercise_id WHERE user_id = ${userId}`;
       const result = await client.query(selectQuery);
-      for (let i = 0; i < result.rowCount; i++) {
-        const selectQuery = `SELECT * FROM exercise WHERE exercise_id = ${result[i]["exercise_id"]}`;
-        const result = await client.query(selectQuery);
-        result[i]["exercise_name"] = result["exercise_name"]
-        result[i]["bodypart"] = result["bodypart"]
-      }
-      res.status(200).json(result.rows);
+      res.status(200).json({items: result.rows});
     } catch (error) {
       console.error(error);
       res.status(500).json(ErrorInternalServer);
@@ -46,9 +40,9 @@ const getUserTask = async (req, res) => {
   if (req.user && req.user.userId) {
     const userId = req.user.userId;
     try {
-      const selectQuery = `SELECT * FROM user_task WHERE user_id = ${userId}`;
+      const selectQuery = `SELECT * FROM user_task JOIN task ON task.task_id = user_task.task_id WHERE user_id = ${userId}`;
       const result = await client.query(selectQuery);
-      res.status(200).json(result.rows);
+      res.status(200).json({items: result.rows});
     } catch (error) {
       console.error(error);
       res.status(500).json(ErrorInternalServer);

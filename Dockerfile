@@ -4,8 +4,8 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm install -g nodemon
 RUN npm install express
+RUN npm install -g nodemon
 RUN npm install
 
 CMD ["npm", "run", "start-dev"]
