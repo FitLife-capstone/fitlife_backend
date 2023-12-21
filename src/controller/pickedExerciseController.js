@@ -22,38 +22,15 @@ const submitExercise = async (req, res) => {
     const user_id = req.user.userId;
 
     try {
-      if (req.file) {
-        const imgPath = req.file.path;
-        const timestamp = new Date().getTime();
-        const uniqueFilename = `${timestamp}-${req.file.originalname}`;
-        const targetPath = `src/uploads/exercise/${uniqueFilename}`;
-
-        const bucket = storage.bucket(bucketName);
-        const file = bucket.file(targetPath);
-
-        await file.save(fs.createReadStream(imgPath), {
-          metadata: { contentType: req.file.mimetype },
-        });
-
-        let query = `SELECT * FROM user_exercise WHERE exercise_id = ${exercise_id} AND user_id = ${user_id}`;
-        let queryResult = await client.query(query);
-
-        if (queryResult.rows.length > 0) {
-          res.status(400).json({
-            error: true,
-            message: 'Exercise already submitted',
-          });
-          return;
-        } else {
-          query = `INSERT INTO user_exercise (exercise_id, user_id, rate, img) VALUES (${exercise_id}, ${user_id}, ${rate}, '${file.publicUrl()}') RETURNING *`;
+      if (req.exercise_id) {
+          query = `INSERT INTO user_exercise (exercise_id, user_id) VALUES (${exercise_id}, ${user_id}) RETURNING *`;
           queryResult = await client.query(query);
 
           res.status(201).json({
             error: false,
             message: 'Exercise submitted',
             data: queryResult.rows[0],
-          });
-        }
+        })
       } else {
         res.status(400).json({
           error: true,

@@ -26,6 +26,12 @@ const getUserExercise = async (req, res) => {
     try {
       const selectQuery = `SELECT * FROM user_exercise WHERE user_id = ${userId}`;
       const result = await client.query(selectQuery);
+      for (let i = 0; i < result.rowCount; i++) {
+        const selectQuery = `SELECT * FROM exercise WHERE exercise_id = ${result[i]["exercise_id"]}`;
+        const result = await client.query(selectQuery);
+        result[i]["exercise_name"] = result["exercise_name"]
+        result[i]["bodypart"] = result["bodypart"]
+      }
       res.status(200).json(result.rows);
     } catch (error) {
       console.error(error);
