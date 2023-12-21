@@ -18,18 +18,17 @@ const bucketName = process.env.BUCKETNAME;
 
 const submitExercise = async (req, res) => {
   if (req.user && req.user.userId) {
-    const { exercise_id, rate } = req.body;
+    const { exercise_id } = req.body;
     const user_id = req.user.userId;
 
     try {
-      if (req.exercise_id) {
-          query = `INSERT INTO user_exercise (exercise_id, user_id) VALUES (${exercise_id}, ${user_id}) RETURNING *`;
+      if (exercise_id) {
+          query = `INSERT INTO user_exercise (exercise_id, user_id) VALUES (${exercise_id}, ${user_id})`;
           queryResult = await client.query(query);
 
           res.status(201).json({
             error: false,
             message: 'Exercise submitted',
-            data: queryResult.rows[0],
         })
       } else {
         res.status(400).json({
