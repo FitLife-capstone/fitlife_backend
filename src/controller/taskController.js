@@ -27,20 +27,20 @@ const getAllTask = async (req, res) => {
 
 const getAllActiveTask = async (req, res) => {
   try {
-    const query =
-      "SELECT * FROM task WHERE end_date >= CURRENT_DATE  ORDER BY created_date DESC";
+    const query = `SELECT * FROM task WHERE end_date >= CURRENT_DATE AND task_id NOT IN (SELECT task_id from user_task WHERE user_id=${req.user.userId}) ORDER BY created_date DESC`;
 
     const queryResult = await client.query(query);
 
     if (queryResult.rows.length == 0) {
-      res.status(201).json({
+      res.status(200).json({
         error: false,
         message: "No active challenge",
+        data: []
       });
       return;
     }
 
-    res.status(201).json({
+    res.status(200).json({
       error: false,
       message: "Success",
       data: queryResult.rows,
@@ -111,12 +111,10 @@ const createTask = async (req, res) => {
       }
     }
   } else {
-    res
-      .status(403)
-      .json({
-        error: true,
-        message: "Forbidden: Only admin can perform this action",
-      });
+    res.status(403).json({
+      error: true,
+      message: "Forbidden: Only admin can perform this action",
+    });
   }
 };
 

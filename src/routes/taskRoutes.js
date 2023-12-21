@@ -4,7 +4,7 @@ const taskHandler = require("../controller/taskController");
 const middleware = require("../middleware/auth");
 
 taskRoutes.get("/tasks", taskHandler.getAllTask);
-taskRoutes.get("/active-tasks", taskHandler.getAllActiveTask);
+taskRoutes.get("/active-tasks", middleware.authMiddleware, taskHandler.getAllActiveTask);
 taskRoutes.get("/task/:id", taskHandler.getTask);
 taskRoutes.post(
   "/create-task",

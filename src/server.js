@@ -11,7 +11,7 @@ const pickedExerciseRoutes = require("./routes/pickedExerciseRoutes");
 const pickedTaskRoutes = require("./routes/pickedTaskRoutes");
 const userTaskRoutes = require("./routes/userTaskRoutes");
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 6000;
 
 app.use(cors());
 
